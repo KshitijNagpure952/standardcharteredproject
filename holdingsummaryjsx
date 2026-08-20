@@ -1,0 +1,30 @@
+import React from 'react';
+
+const HoldingsSummary = ({ data }) => {
+  return (
+    <div className="card summary-card">
+      <h3>Holdings Summary</h3>
+      <ul className="summary-list">
+        <li>
+          <span>Highest Client Holding</span>
+          <strong>{data.highestHolding}</strong>
+        </li>
+        <li>
+          <span>Avg. Client Holding</span>
+          <strong>{data.avgHolding}</strong>
+        </li>
+        <li>
+          <span>New Clients (This Month)</span>
+          <strong>{data.newClientsThisMonth}</strong>
+        </li>
+        <li>
+          <span>Clients Needing Attention</span>
+          <strong>{data.clientsNeedingAttention}</strong>
+        </li>
+      </ul>
+      <a href="/details" className="link-action">View Details</a>
+    </div>
+  );
+};
+
+export default HoldingsSummary;

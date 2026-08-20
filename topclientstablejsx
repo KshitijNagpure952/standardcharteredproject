@@ -1,0 +1,33 @@
+import React from 'react';
+
+const TopClientsTable = ({ data }) => {
+  return (
+    <div className="card table-card">
+      <h3>Top Clients by Holdings</h3>
+      <table className="custom-table">
+        <thead>
+          <tr>
+            <th>Client Name</th>
+            <th>Holdings (AUM)</th>
+            <th>Returns (MTD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((client, index) => (
+            <tr key={client.id}>
+              <td>
+                <span className="rank">{index + 1}</span> {client.name}
+              </td>
+              <td>{client.aum}</td>
+              <td className={`trend ${client.isPositive ? 'positive' : 'negative'}`}>
+                 {client.isPositive ? '▲' : '▼'} {client.returns}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default TopClientsTable;

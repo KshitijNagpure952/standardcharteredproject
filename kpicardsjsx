@@ -1,0 +1,26 @@
+import React from 'react';
+
+const KPICards = ({ data }) => {
+  const metrics = [
+    { title: "Total Clients", value: data.totalClients.value, change: `${data.totalClients.change} this month`, isPos: data.totalClients.isPositive },
+    { title: "Total Holdings (AUM)", value: data.totalAum.value, change: `${data.totalAum.change} this month`, isPos: data.totalAum.isPositive },
+    { title: "Total Invested", value: data.totalInvested.value, change: `${data.totalInvested.change} this month`, isPos: data.totalInvested.isPositive },
+    { title: "Total Returns", value: data.totalReturns.value, change: `${data.totalReturns.change} this month`, isPos: data.totalReturns.isPositive },
+  ];
+
+  return (
+    <>
+      {metrics.map((metric, index) => (
+        <div className="card kpi-card" key={index}>
+          <h4>{metric.title}</h4>
+          <h2>{metric.value}</h2>
+          <span className={`trend ${metric.isPos ? 'positive' : 'negative'}`}>
+            {metric.isPos ? '▲' : '▼'} {metric.change}
+          </span>
+        </div>
+      ))}
+    </>
+  );
+};
+
+export default KPICards;

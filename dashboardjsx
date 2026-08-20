@@ -1,0 +1,58 @@
+import React, { useState, useEffect } from 'react';
+import { fetchDashboardData } from '../../services/dashboardService';
+import KPICards from './components/KPICards';
+import AssetAllocation from './components/AssetAllocation';
+import HoldingsSummary from './components/HoldingsSummary';
+import TopClientsTable from './components/TopClientsTable';
+import ActionItems from './components/ActionItems';
+import './Dashboard.css';
+
+const Dashboard = () => {
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const data = await fetchDashboardData();
+        setDashboardData(data);
+      } catch (error) {
+        console.error("Error fetching dashboard data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, []);
+
+  if (loading) return <div className="loading-state">Loading Dashboard...</div>;
+  if (!dashboardData) return <div className="error-state">Failed to load data.</div>;
+
+  return (
+    <div className="dashboard-content">
+      <header className="dashboard-header">
+        <h1>Good morning, Rahul Sharma! 👋</h1>
+        <p>Here's your portfolio overview</p>
+      </header>
+
+      {/* Top Row: KPIs */}
+      <section className="dashboard-grid top-row">
+        <KPICards data={dashboardData.kpis} />
+      </section>
+
+      {/* Middle Row: Charts & Summary */}
+      <section className="dashboard-grid middle-row">
+        <AssetAllocation data={dashboardData.assetAllocation} />
+        <HoldingsSummary data={dashboardData.holdingsSummary} />
+      </section>
+
+      {/* Bottom Row: Tables & Actions */}
+      <section className="dashboard-grid bottom-row">
+        <TopClientsTable data={dashboardData.topClients} />
+        <ActionItems data={dashboardData.actionItems} />
+      </section>
+    </div>
+  );
+};
+
+export default Dashboard;

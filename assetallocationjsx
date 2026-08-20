@@ -1,0 +1,33 @@
+import React from 'react';
+
+const AssetAllocation = ({ data }) => {
+  // Simple CSS conic-gradient for the pie chart without external libraries
+  const gradientString = data.reduce((acc, item, index) => {
+    const prevPercentage = index === 0 ? 0 : data.slice(0, index).reduce((sum, d) => sum + d.percentage, 0);
+    const currentPercentage = prevPercentage + item.percentage;
+    return `${acc}${index !== 0 ? ', ' : ''}${item.color} ${prevPercentage}% ${currentPercentage}%`;
+  }, '');
+
+  return (
+    <div className="card asset-card">
+      <h3>Asset Allocation (By Value)</h3>
+      <div className="asset-content">
+        <div 
+          className="pie-chart" 
+          style={{ background: `conic-gradient(${gradientString})` }}
+        ></div>
+        <ul className="asset-legend">
+          {data.map((item, index) => (
+            <li key={index}>
+              <span className="dot" style={{ backgroundColor: item.color }}></span>
+              <span className="label">{item.label}</span>
+              <span className="value">{item.percentage}%</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default AssetAllocation;

@@ -1,0 +1,20 @@
+import React from 'react';
+
+const ActionItems = ({ data }) => {
+  return (
+    <div className="card action-card">
+      <h3>Action Items</h3>
+      <ul className="action-list">
+        {data.map((item, index) => (
+          <li key={index}>
+            <span className="action-icon">◎</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+      <a href="/tasks" className="link-action">View All Tasks</a>
+    </div>
+  );
+};
+
+export default ActionItems;
