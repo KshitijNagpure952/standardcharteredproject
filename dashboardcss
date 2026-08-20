@@ -1,0 +1,19 @@
+.dashboard{
+    padding:30px;
+}
+
+.cards-container{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+.dashboard-page{
+    background:#f5f7fb;
+    min-height:100vh;
+}
+.card{
+    background:white;
+    border-radius:12px;
+    padding:24px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
