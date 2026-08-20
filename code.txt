@@ -1,0 +1,940 @@
+I need you to build a React frontend for an RM (Relationship Manager) dashboard.
+
+IMPORTANT:
+You do NOT have access to the reference screenshot, so the following textual UI specification is the source of truth. Reproduce it as accurately as possible.
+
+## WORKING DIRECTORY
+
+Work ONLY inside:
+
+frontend/src/
+
+Do not modify or create files outside the frontend application unless absolutely required for the React app to run.
+
+## USE THIS FOLDER STRUCTURE
+
+frontend/
+└── src/
+├── components/
+│
+├── constants/
+│   ├── Button/
+│   │   └── Button.jsx
+│   ├── Card/
+│   │   └── Card.jsx
+│   └── Table/
+│       └── Table.jsx
+│
+├── hooks/
+│   └── useDashboard.js
+│
+├── layouts/
+│   ├── Header.css
+│   ├── Header.jsx
+│   ├── MainLayout.css
+│   └── MainLayout.jsx
+│
+├── pages/
+│   ├── ClientDetails/
+│   ├── Dashboard/
+│   │   ├── Dashboard.css
+│   │   └── Dashboard.jsx
+│   └── Login/
+│
+├── services/
+│   ├── api.js
+│   └── dashboardService.js
+│
+├── utils/
+│
+├── App.css
+├── App.js
+├── App.test.js
+└── index.css
+
+IMPORTANT FOLDER RULE:
+Do not create a new architecture or move the files into different directories.
+Use this structure.
+
+Do NOT create or use Sidebar.jsx or Sidebar.css for this dashboard.
+The dashboard reference does NOT show a sidebar.
+There is only a hamburger icon in the top-left header. Keep the icon, but do NOT implement a sidebar behind it.
+
+## TECHNOLOGY
+
+Use:
+
+* React
+* JSX
+* CSS
+* Functional components
+* React hooks
+* lucide-react only for icons if necessary
+
+Use JavaScript, NOT TypeScript.
+
+Do not introduce large UI libraries unless the project already contains them.
+
+For icons, lucide-react is acceptable.
+Install if necessary:
+
+npm install lucide-react
+
+## MAIN OBJECTIVE
+
+Recreate a professional financial RM dashboard.
+
+The dashboard should look compact, clean, modern, white, and corporate.
+
+The reference design is a small desktop dashboard with very compact cards and typography.
+
+The page background is extremely light gray / almost white.
+
+Cards are white with thin light-gray borders and small rounded corners.
+
+The interface has a lot of whitespace but individual cards are compact.
+
+Do NOT make the UI large, oversized, or spacious like a typical modern landing page.
+
+## OVERALL PAGE STRUCTURE
+
+The page is approximately:
+
+1. Top horizontal header
+2. Greeting text
+3. Four KPI cards in one row
+4. Two medium cards in the next row
+5. Two medium cards in the final row
+
+There are NO other visible sections.
+
+## HEADER
+
+The header spans the full width of the page.
+
+Header background:
+
+* white
+
+Header:
+
+* approximately 45–50px high
+* thin bottom border
+* horizontal flex layout
+* content aligned vertically in the center
+
+LEFT SIDE:
+
+At the far left there is a small hamburger/menu icon.
+
+It is a simple dark gray icon.
+
+Important:
+The hamburger icon is visible, but clicking it does NOT need to open a sidebar because the reference only shows the icon and no sidebar.
+
+Do not create sidebar functionality.
+
+RIGHT SIDE:
+
+The top-right area contains:
+
+1. Notification/bell icon
+2. Language selector
+3. User profile
+
+Notification:
+
+* small bell icon
+* dark gray
+* very compact
+* approximately 16–18px
+* no large notification panel
+
+There is a tiny blue notification indicator/dot associated with the bell.
+
+Language selector:
+
+* small white rectangular control
+* thin light-gray border
+* slightly rounded corners
+* text: "English"
+* a tiny downward chevron
+* very small typography
+
+User profile:
+
+* small circular avatar
+* avatar contains initials:
+  "RS"
+* background is very light gray
+* to the right of the avatar:
+  "Rahul Sharma"
+* below the name or immediately underneath:
+  "RM"
+* small dropdown chevron on the right
+
+Do not add search bars.
+Do not add settings.
+Do not add extra navigation.
+Do not add breadcrumbs.
+
+## MAIN CONTENT WIDTH
+
+The content is centered within the page.
+
+Do not make it full-width edge-to-edge.
+
+Use a max-width around 1000–1050px on desktop.
+
+The content has small horizontal padding.
+
+The dashboard in the reference is compact and approximately centered.
+
+## GREETING SECTION
+
+Immediately below the header there is a small greeting.
+
+First line:
+
+Good morning, Rahul Sharma! 👋
+
+Important:
+
+* "Good morning," is normal text
+* "Rahul Sharma!" is bold
+* a small waving hand emoji appears after the name
+* font is dark navy/black
+* approximately 16–18px
+* font weight around 700
+
+Below it:
+
+Here's your portfolio overview
+
+This is much smaller than the heading:
+
+* approximately 9–11px
+* gray text
+* normal weight
+
+There is a small amount of vertical spacing between heading and subtitle.
+
+There is also a small amount of spacing below this section before the KPI cards.
+
+## KPI CARDS
+
+There are EXACTLY FOUR KPI cards.
+
+They are on ONE horizontal row on desktop.
+
+Card titles and values:
+
+CARD 1:
+Title:
+Total Clients
+
+Value:
+128
+
+Change:
+▲ 8 this month
+
+CARD 2:
+Title:
+Total Holdings (AUM)
+
+Value:
+₹245.67 Cr
+
+Change:
+▲ 5.4% this month
+
+CARD 3:
+Title:
+Total Invested
+
+Value:
+₹210.35 Cr
+
+Change:
+▲ 6.1% this month
+
+CARD 4:
+Title:
+Total Returns
+
+Value:
+₹35.32 Cr
+
+Change:
+▲ 7.3% this month
+
+CARD DESIGN:
+
+* white background
+* thin #e5e7eb-like border
+* small border radius approximately 6px
+* compact height
+* four equal-width cards
+* approximately 10px gap between cards
+
+Inside each card:
+
+Title:
+
+* small
+* gray
+* approximately 8–10px
+* medium weight
+
+Value:
+
+* dark navy
+* bold
+* approximately 15–17px
+* clearly larger than title
+
+Change row:
+
+* green
+* tiny upward trend icon
+* tiny text
+* approximately 8–9px
+
+The KPI cards must feel compact.
+
+Do not create extra KPIs.
+
+## SECOND ROW
+
+Second row has EXACTLY TWO cards of equal width.
+
+LEFT:
+Asset Allocation (By Value)
+
+RIGHT:
+Holdings Summary
+
+## ASSET ALLOCATION CARD
+
+Card title:
+
+Asset Allocation (By Value)
+
+Title style:
+
+* small dark text
+* bold
+* approximately 9–11px
+
+Inside the card:
+
+* left side has a donut chart
+* right side has a legend
+
+DONUT CHART:
+
+It is a circular donut chart, not a pie chart.
+
+Approximate values:
+
+Equity = 56%
+Debt = 24%
+Mutual Funds = 12%
+Fixed Deposits = 6%
+Others = 2%
+
+These percentages total 100%.
+
+Use a CSS conic-gradient if possible.
+
+Approximate visual colors:
+
+Equity:
+blue, around #2563eb
+
+Debt:
+muted blue/gray, around #64748b
+
+Mutual Funds:
+orange/yellow, around #f59e0b
+
+Fixed Deposits:
+red/coral, around #ef4444
+
+Others:
+teal/green, around #14b8a6
+
+The donut has:
+
+* colored outer ring
+* white center hole
+* compact dimensions, roughly 85–100px
+
+Do not use a huge chart.
+
+LEGEND:
+
+Each row has:
+
+* small colored circular dot
+* asset name
+* percentage aligned to the right
+
+Rows:
+
+Equity       56%
+Debt         24%
+Mutual Funds 12%
+Fixed Deposits 6%
+Others       2%
+
+The legend uses very small typography.
+
+The donut and legend should sit next to each other horizontally.
+
+## HOLDINGS SUMMARY CARD
+
+Title:
+
+Holdings Summary
+
+Inside it are four rows.
+
+Row 1:
+Highest Client Holding              ₹18.75 Cr
+
+Row 2:
+Avg. Client Holding                  ₹1.92 Cr
+
+Row 3:
+New Clients (This Month)             7
+
+Row 4:
+Clients Needing Attention            12
+
+Layout:
+
+* labels on left
+* values on right
+* values bold
+* labels gray
+* compact vertical spacing
+
+At the bottom-right of the card there is a small blue text link:
+
+View Details
+
+Immediately beside it is a small up-right arrow icon.
+
+This is NOT a large button.
+It should look like a small text action.
+
+Color should be blue, approximately #2563eb.
+
+## THIRD / FINAL ROW
+
+The final row also contains EXACTLY TWO cards.
+
+LEFT:
+Top Clients by Holdings
+
+RIGHT:
+Action Items
+
+## TOP CLIENTS BY HOLDINGS
+
+Card title:
+
+Top Clients by Holdings
+
+Below the title is a compact table.
+
+The table has four columns:
+
+1. Rank
+2. Client Name
+3. Holdings (AUM)
+4. Returns (MTD)
+
+Header should be extremely small.
+
+Rows:
+
+1 | Amit Verma | ₹18.75 Cr | ▲ 6.2%
+2 | Priya Shah | ₹12.40 Cr | ▲ 5.1%
+3 | Neha Iyer  | ₹10.10 Cr | ▲ 4.9%
+
+Important:
+
+* returns are green
+* tiny upward trend icon before each percentage
+* client names are slightly bold
+* holdings values slightly bold
+* table is compact
+* thin light-gray horizontal separators
+* no vertical heavy borders
+
+The table should occupy most of the card width.
+
+Do not add more clients.
+
+## ACTION ITEMS
+
+Card title:
+
+Action Items
+
+There are exactly three items.
+
+Item 1:
+12 clients have upcoming FD maturity
+
+Item 2:
+8 clients need portfolio review
+
+Item 3:
+5 pending statements to send
+
+Each row:
+
+* small circular orange/yellow outlined icon on the left
+* short text on right
+* very small typography
+* compact vertical spacing
+
+Use a suitable alert/info icon from lucide-react if needed.
+
+At the bottom-right:
+
+View All Tasks
+
+with a small blue up-right arrow icon.
+
+Again:
+This is a text link, NOT a large button.
+
+## CARD STYLE
+
+All dashboard cards should share the same visual language:
+
+background: #ffffff
+
+border:
+1px solid #e5e7eb approximately
+
+border-radius:
+approximately 6px
+
+No large shadows.
+
+If a shadow is used at all, it must be extremely subtle.
+Prefer no visible shadow.
+
+Card title areas have very small padding.
+
+Card content has compact padding.
+
+## COLORS
+
+Use a conservative financial dashboard palette.
+
+Primary dark text:
+#1e293b or similar
+
+Secondary gray:
+#64748b
+
+Light border:
+#e5e7eb
+
+Page background:
+#f8fafc or similarly very light gray
+
+Blue actions:
+#2563eb
+
+Positive green:
+#16a34a
+
+Orange:
+#f59e0b
+
+Red:
+#ef4444
+
+Teal:
+#14b8a6
+
+## TYPOGRAPHY
+
+Use a clean sans-serif.
+
+Preferred:
+
+Inter
+
+Fallback:
+
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+sans-serif
+
+Do not use decorative fonts.
+
+Overall typography must stay compact.
+
+The dashboard is NOT a large typography design.
+
+## SPACING
+
+This is critical.
+
+The reference UI is compact.
+
+Use approximately:
+
+Header:
+45–50px height
+
+Main content horizontal padding:
+15–25px
+
+Gap between KPI cards:
+8–12px
+
+Gap between dashboard rows:
+8–12px
+
+Card radius:
+5–7px
+
+Card title font:
+9–11px
+
+KPI title:
+8–10px
+
+KPI value:
+15–17px
+
+Small labels:
+8–10px
+
+Do NOT use:
+
+* giant padding
+* giant margins
+* 30–50px text
+* huge cards
+* oversized icons
+
+## RESPONSIVE BEHAVIOUR
+
+Desktop:
+
+* 4 KPI cards in one row
+* 2 cards in second row
+* 2 cards in third row
+
+Tablet:
+
+* KPI cards may become 2 x 2
+* two-column sections may remain two columns if enough width
+
+Mobile:
+
+* KPI cards become one column
+* two-column cards stack vertically
+* table may horizontally scroll
+* header remains compact
+* profile text may be hidden if necessary
+
+But do NOT sacrifice the desktop appearance.
+
+## REUSABLE COMPONENTS
+
+Use the existing folders:
+
+constants/Card/Card.jsx
+constants/Button/Button.jsx
+constants/Table/Table.jsx
+
+Create simple reusable components.
+
+Do not over-engineer.
+
+Card should support:
+
+* title
+* children
+* optional className
+
+Button should support:
+
+* children
+* onClick
+* className
+
+Table should support:
+
+* columns
+* data
+* row rendering
+
+## DATA ARCHITECTURE
+
+Do NOT write dashboard data directly inside the Dashboard component.
+
+Use:
+
+pages/Dashboard/Dashboard.jsx
+↓
+hooks/useDashboard.js
+↓
+services/dashboardService.js
+↓
+services/api.js
+
+For now use mock data.
+
+dashboardService.js should export something like:
+
+getDashboardData()
+
+The mock response should contain:
+
+user
+metrics
+assetAllocation
+holdingsSummary
+topClients
+actionItems
+
+Example structure:
+
+{
+user: {
+name: "Rahul Sharma",
+role: "RM"
+},
+
+metrics: [
+{
+title: "Total Clients",
+value: "128",
+change: "8 this month"
+},
+...
+],
+
+assetAllocation: [
+{
+name: "Equity",
+percentage: 56,
+color: "#2563eb"
+},
+...
+],
+
+holdingsSummary: {
+highestClientHolding: "₹18.75 Cr",
+averageClientHolding: "₹1.92 Cr",
+newClients: 7,
+clientsAttention: 12
+},
+
+topClients: [
+{
+rank: 1,
+name: "Amit Verma",
+holdings: "₹18.75 Cr",
+returns: "6.2%"
+},
+...
+],
+
+actionItems: [
+{
+id: 1,
+text: "12 clients have upcoming FD maturity"
+},
+...
+]
+}
+
+Do not duplicate these values in JSX.
+
+## API PREPARATION
+
+services/api.js should contain a reusable fetch wrapper.
+
+Use:
+
+const API_BASE_URL =
+process.env.REACT_APP_API_BASE_URL ||
+"http://localhost:8080/api";
+
+Create an apiRequest function that accepts:
+
+* endpoint
+* options
+
+It should:
+
+* call fetch()
+* set Content-Type: application/json
+* throw an error for non-2xx responses
+* return response.json()
+
+Currently dashboardService.js should return mock data.
+
+Later it should be possible to change only:
+
+return mockDashboardData;
+
+to:
+
+return apiRequest("/dashboard");
+
+Do not connect to an actual backend now.
+
+## LOADING AND ERROR
+
+useDashboard.js should provide:
+
+dashboard
+loading
+error
+
+Dashboard.jsx should show a minimal loading state while data is loading.
+
+Dashboard.jsx should show a minimal error state if the API/mock service fails.
+
+Do NOT create a large error page.
+
+## APP INTEGRATION
+
+App.js should render:
+
+MainLayout
+└── Dashboard
+
+MainLayout should render:
+
+Header
+main content
+Dashboard
+
+Do not include:
+
+* Sidebar
+* Router
+* Extra navigation
+* Extra pages
+  unless they are already required by the existing application.
+
+If the existing project already has React Router, do not break it, but only the dashboard needs to be implemented for this task.
+
+## IMPORTANT UI RESTRICTIONS
+
+DO NOT ADD:
+
+* Sidebar
+* Left navigation panel
+* Search bar
+* Extra filters
+* Date selector
+* More KPI cards
+* More charts
+* Pie chart in addition to donut
+* Notifications panel
+* User dropdown menu
+* Footer
+* Recent activity
+* Performance graph
+* Portfolio graph
+* Additional tables
+* Welcome banner
+* Breadcrumbs
+* Extra buttons
+* Extra headings
+* Dark mode
+* Theme switcher
+* Settings panel
+* Modal
+* Tooltip unless strictly needed
+* Any invented company logo
+* Any invented branding
+
+The hamburger icon in the header is the ONLY thing suggesting navigation.
+Do not implement a sidebar.
+
+## VISUAL PRIORITY
+
+Priority order:
+
+1. Layout proportions
+2. Card sizes
+3. Spacing
+4. Typography
+5. Colors
+6. Icons
+7. Data
+8. Responsive behaviour
+
+The result should feel like a compact banking / wealth-management internal dashboard.
+
+## FILES TO CREATE OR MODIFY
+
+You are expected to create/update only the following files for this dashboard:
+
+src/constants/Button/Button.jsx
+src/constants/Card/Card.jsx
+src/constants/Table/Table.jsx
+
+src/hooks/useDashboard.js
+
+src/layouts/Header.jsx
+src/layouts/Header.css
+src/layouts/MainLayout.jsx
+src/layouts/MainLayout.css
+
+src/pages/Dashboard/Dashboard.jsx
+src/pages/Dashboard/Dashboard.css
+
+src/services/api.js
+src/services/dashboardService.js
+
+src/App.js
+src/App.css
+src/index.css
+
+Do not create Sidebar files.
+
+Do not change unrelated files.
+
+## FINAL REQUIREMENT
+
+Give me the implementation directly in the repository.
+
+Do not just explain what to do.
+
+Create the files and code.
+
+After implementation, verify:
+
+* imports are correct
+* paths are correct
+* no unused imports
+* no missing CSS
+* no sidebar exists
+* dashboard renders without backend
+* mock data works
+* API layer is ready for future Spring Boot integration
+* desktop layout follows the specification
+* no extra UI has been invented
+
+Do not stop after creating only the JSX.
+Complete the CSS and supporting files as well.
