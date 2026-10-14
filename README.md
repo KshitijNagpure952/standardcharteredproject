@@ -1,88 +1,68 @@
-Task: Automate Confluence's Native Export to Word Using Python
 
-Act as a senior Python automation engineer. Build a reliable Python program that downloads a Confluence page as a Word document using Confluence's existing built-in Export to Word functionality.
+import os
+import re
+from pathlib import Path
+from urllib.parse import urlparse, parse_qs
+import requests
 
-1. Objective
+# Replace these with your actual values
+BASE_URL = "https://confluence.company.com/confluence"
+PAGE_URL = "https://confluence.company.com/confluence/pages/viewpage.action?pageId=123456"
+OUTPUT_FOLDER = Path(r"C:\Users\YourUsername\Documents\ConfluenceExports")
 
-I use an internally hosted Confluence instance (Confluence Server/Data Center). When I open a Confluence page, there is a three-dot menu in the upper-right corner. Clicking it opens a dropdown containing Export to Word. Clicking that option downloads a Word file.
+# Create a Personal Access Token if your company permits it.
+TOKEN = os.getenv("CONFLUENCE_PAT")
 
-I want to automate this exact workflow. Whenever I run the Python program, it should navigate to the specified Confluence page, invoke the native Export to Word functionality, wait for the download to finish, and save the downloaded file into a configurable local folder.
+OUTPUT_FOLDER.mkdir(parents=True, exist_ok=True)
 
-2. Mandatory requirements
+# Extract page ID from the URL
+parsed = urlparse(PAGE_URL)
+params = parse_qs(parsed.query)
+page_ids = params.get("pageId", [])
 
-- Use Python.
-- Use Playwright for browser automation if required to interact with the native Confluence UI.
-- Alternatively, use a documented Confluence Server/Data Center export endpoint if it invokes the same native export functionality and works with the company's authentication configuration.
-- Do not reconstruct the document using "python-docx".
-- Do not merely fetch the page's HTML or storage-format content and convert it into Word.
-- Preserve the formatting, tables, images, links, and other content produced by Confluence's native Word exporter.
-- Do not use screen coordinates for clicking buttons. Use accessible roles, text locators, or verified CSS selectors.
-- Support company authentication, including SSO/MFA when necessary. Prefer an interactive browser login instead of storing passwords in source code.
-- Never hardcode credentials, session cookies, or access tokens.
-- Allow the user to configure the Confluence page URL and download destination.
-- Create the destination directory automatically if it does not exist.
-- Wait for the actual download event and ensure the download has completed before reporting success.
-- Preserve the filename suggested by Confluence unless a configurable filename override is supplied.
-- Handle errors such as expired sessions, insufficient permissions, missing export menu items, timeouts, and failed downloads.
-- Log useful progress and errors without logging credentials or sensitive authentication data.
+if not page_ids:
+    raise ValueError(
+        "No pageId found. Check your Confluence page URL."
+    )
 
-3. Expected workflow
+page_id = page_ids[0]
 
-1. Start the script.
-2. Open the configured Confluence page in a Chromium browser.
-3. If the user is not authenticated, allow interactive login and any required SSO/MFA steps.
-4. Locate and click the page's three-dot or More actions button.
-5. Locate and click the exact "Export to Word" menu item.
-6. Capture the browser download event.
-7. Save the resulting file to the configured output directory.
-8. Verify that the saved file exists and is non-empty.
-9. Print the full path of the downloaded file.
-10. Close the browser cleanly.
+if not TOKEN:
+    raise RuntimeError(
+        "Set the CONFLUENCE_PAT environment variable first."
+    )
 
-4. Configuration
+# Request the native Word export
+session = requests.Session()
+session.headers.update({
+    "Authorization": f"Bearer {TOKEN}",
+    "Accept": "*/*",
+})
 
-Provide a clearly documented configuration section or a ".env" file for:
+export_url = f"{BASE_URL.rstrip('/')}/exportword"
+response = session.get(
+    export_url,
+    params={"pageId": page_id},
+    timeout=120,
+    allow_redirects=True,
+)
 
-- "CONFLUENCE_PAGE_URL"
-- "DOWNLOAD_FOLDER"
-- "BROWSER_PROFILE_FOLDER"
-- Optional download filename override
-- Configurable navigation and download timeouts
+response.raise_for_status()
 
-Use a persistent browser profile so the authenticated session can be reused when permitted by company policy. Do not bypass authentication controls.
+# Avoid saving an authentication/login page as a Word file.
+content_type = response.headers.get("Content-Type", "").lower()
+if "text/html" in content_type:
+    if b"<html" in response.content[:1000].lower():
+        raise RuntimeError(
+            "Received HTML instead of a Word export. "
+            "Authentication, redirects, or the export endpoint "
+            "may need adjustment."
+        )
 
-5. Implementation instructions
+# Confluence's legacy exporter may produce a .doc file,
+# rather than a modern .docx file.
+output_file = OUTPUT_FOLDER / f"confluence_page_{page_id}.doc"
+output_file.write_bytes(response.content)
 
-Before writing the code:
-
-1. Inspect the current repository and identify the existing Python version, dependencies, and project structure.
-2. Determine whether the Confluence page is accessible through the UI and identify the actual menu-button and export-item selectors.
-3. Prefer Playwright's "get_by_role()" and "get_by_text()" methods where reliable.
-4. If multiple possible selectors exist, implement a small, maintainable fallback strategy.
-5. Do not assume that every Confluence version uses the same UI selectors or authentication mechanism.
-6. If the repository contains existing Confluence API code, inspect it and reuse appropriate components instead of duplicating functionality.
-
-6. Deliverables
-
-Create a complete, runnable implementation with:
-
-- "confluence_export.py"
-- "requirements.txt"
-- ".env.example" containing placeholders only
-- A ".gitignore" entry for ".env" and browser-profile data
-- A README with installation, configuration, execution, and troubleshooting instructions
-
-Include commands to install dependencies and run the script on Windows.
-
-7. Acceptance criteria
-
-The program is successful only if:
-
-- Running it initiates the export workflow.
-- It downloads the actual Word file generated by Confluence's native exporter.
-- It saves the file to the configured directory.
-- It waits for the download to complete.
-- It does not require manual interaction after a valid authenticated session is available, except when authentication or MFA is required.
-- It reports actionable errors instead of silently saving an HTML login page as a Word document.
-
-Implement the solution, inspect the code for reliability and security issues, and explain any manual configuration still required. Do not claim that the code works against my company's Confluence instance until its URL, authentication, selectors, and export behavior have been verified.
+print(f"Export saved to: {output_file}")
+print(f"Downloaded {len(response.content)} bytes")
